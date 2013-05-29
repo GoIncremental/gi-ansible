@@ -19,12 +19,13 @@ Vagrant.configure("2") do |config|
     ocean.client_id = ENV['DO_CLIENT_ID']
     ocean.api_key = ENV['DO_API_KEY']
     ocean.ssh_key_name = 'Gintellect'
-    
+    ocean.region = "Amsterdam 1"
+    ocean.size = "1GB"
   end
 
   config.vm.provision :ansible do |ansible|
     # point Vagrant at the location of your playbook you want to run
-    ansible.playbook = "provisioning/bootstrap.yml"
+    ansible.playbook = "provisioning/default.yml"
     ansible.inventory_file = "provisioning/ansible_hosts"
     # the Vagrant VM will be put in this host group change this should
     # match the host group in your playbook you want to test

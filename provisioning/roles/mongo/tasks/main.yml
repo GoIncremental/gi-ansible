@@ -1,0 +1,13 @@
+- name: Install 10-gen key
+  apt_key: id=7F0CEB10 url=http://keyserver.ubuntu.com/pks/lookup?op=get&search=0x9ECBEC467F0CEB10
+
+- name: Install 10-gen mongo repo
+  lineinfile: dest=/etc/apt/sources.list regexp="deb http://downloads-distro.mongodb.org" line="deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"
+  register: last_result
+
+- name: Update APT package cache
+  apt: update_cache=yes
+  when: last_result.changed
+
+- name: Install mongo
+  apt: pkg=mongodb-10gen=${mongo_version} state=installed

@@ -5,9 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
     
-  # define virtual box provider def  config.vm.network :private_network, ip: "33.33.33.10"aults
   config.vm.provider :virtualbox do |vb, override|
-    override.vm.network :private_network, ip: "33.33.33.10"
     vb.customize ['modifyvm', :id, '--memory', '512']
     vb.customize ['modifyvm', :id, '--cpus', 2]
   end
@@ -20,7 +18,7 @@ Vagrant.configure("2") do |config|
     ocean.api_key = ENV['DO_API_KEY']
     ocean.ssh_key_name = 'Gintellect'
     ocean.region = "Amsterdam 1"
-    ocean.size = "1GB"
+    ocean.size = "2GB"
   end
 
   config.vm.provision :ansible do |ansible|

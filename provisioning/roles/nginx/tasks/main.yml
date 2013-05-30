@@ -1,0 +1,30 @@
+---
+
+- name: Install python-software-properties (a dependency of apt_repository module)
+  apt: pkg=python-software-properties
+
+# - name: Install NGINX ppa key
+#   apt_key: id=C300EE8C url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0x00A6F0A3C300EE8C
+
+- name: Install Nginx ppa stable repo
+  apt_repository: repo=ppa:nginx/stable state=present
+  register: last_result
+
+- name: Update APT package cache
+  apt: update_cache=yes
+  when: last_result.changed
+
+- name: Install nginx
+  apt: pkg=nginx state=installed
+
+- name: remove default nginx site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
+- name: write nginx.conf
+  copy: src=nginx.conf  dest=/etc/nginx/nginx.conf  
+
+- name: open port 80 (HTTP)
+  command: ufw allow 80
+
+- name: open port 443 (TLS/SSL)
+  command: ufw allow 443

@@ -1,0 +1,12 @@
+---
+- hosts: digitalocean
+  user: deploy
+  sudo: True
+  pre_tasks:
+    - name: establish more facts
+      action: gint_facts
+  roles:
+    - nginx
+    - node
+    - mongo
+    - stocksystem

@@ -10,7 +10,7 @@
   apt: pkg=fail2ban state=installed
 
 - name: Add deployment user
-  user: name=deploy password=$deploy_password
+  user: name=deploy password=$deploy_password shell=/bin/bash
 
 - name: Add authorized deploy key
   authorized_key: user=deploy key="{{ lookup('file', '/Users/David/.ssh/id_rsa_gint.pub') }}"

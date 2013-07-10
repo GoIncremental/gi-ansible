@@ -1,44 +1,38 @@
 ---
 
-- include: scala.yml
-
 - name: create nginx site config
-  template: src=nginx_site.conf dest=/etc/nginx/sites-available/${app_name}.conf
+  sudo: yes
+  template: src=nginx_site.conf dest=/etc/nginx/sites-available/${app_name}
   notify:
     - Restart nginx
 
 - name: link nginx site config
-  file: src=/etc/nginx/sites-available/${app_name}.conf dest=/etc/nginx/sites-enabled/${app_name}.conf state=link
+  sudo: yes
+  file: src=/etc/nginx/sites-available/${app_name} dest=/etc/nginx/sites-enabled/${app_name} state=link
 
 - name: ensure site logging exists
-  file: path=${web_dir}/${app_name}/log/ state=directory
-
-- name: ensure site directory exists
-  file: path=${web_dir}/${app_name}/app/ state=directory
+  file: path=${web_dir}/${app_name}/log/ state=directory owner=deploy
 
 - name: checkout git stocksystem release branch
   git: dest=${web_dir}/${app_name}/scm/ repo="git@github.com:Gintellect/stocksystem.git"
 
 - name: ensure crypto directory exists
-  file: path=${web_dir}/${app_name}/scm/server/crypto state=directory
+  file: path=${web_dir}/${app_name}/crypto state=directory owner=deploy
 
 - name: copy seasoned ssl certificate
-  copy: dest=${web_dir}/${app_name}/scm/server/crypto/ src=ssl.crt
+  copy: dest=${web_dir}/${app_name}/crypto/ src=seasoned.com.chained.crt
 
 - name: copy seasoned ssl key
-  copy: dest=${web_dir}/${app_name}/scm/server/crypto/ src=ssl.key
+  copy: dest=${web_dir}/${app_name}/crypto/ src=ssl.key
 
-- name: copy seasoned ssl chain
-  copy: dest=${web_dir}/${app_name}/scm/server/crypto/ src=sub.class2.server.ca.pem.cer
+# - name: stage play application (this will take a while)
+#   command: sbt clean compile stage chdir=${web_dir}/${app_name}/scm/play
 
-- name: stage play application (this will take a while)
-  command: sbt clean compile stage chdir=${web_dir}/${app_name}/scm/play
+# - name: install npm dependencies
+#   command: npm install chdir=${web_dir}/${app_name}/scm
 
-- name: install npm dependencies
-  command: npm install chdir=${web_dir}/${app_name}/scm
+# - name: launch scala site
+#   command: forever start -c /bin/bash play/target/start chdir=${web_dir}/${app_name}/scm
 
-- name: launch scala site
-  command: forever start -c /bin/bash play/target/start chdir=${web_dir}/${app_name}/scm
-
-- name: launch node site
-  command: forever start -c node_modules/.bin/coffee server/server.coffee chdir=${web_dir}/${app_name}/scm
+# - name: launch node site
+#   command: forever start -c node_modules/.bin/coffee server/server.coffee chdir=${web_dir}/${app_name}/scm

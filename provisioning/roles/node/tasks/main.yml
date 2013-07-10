@@ -1,6 +1,7 @@
 ---
 
 - name: install common packages needed for node development
+  sudo: yes
   apt: pkg=$item state=installed
   when_string: $installed_node_version != $node_version
   with_items:
@@ -28,6 +29,7 @@
   when_string: $installed_node_version != $node_version
 
 - name: install node
+  sudo: yes
   command: chdir=/home/deploy/node-${node_version} make install
   when_string: $installed_node_version != $node_version
 
@@ -37,5 +39,6 @@
 - name: clean node source file
   file: path=node-${node_version}.tar.gz state=absent
 
-- name: install forever (takes forever ... ;-) )1
+- name: install forever (takes forever ... ;-) )
   command: npm install forever -g
+  sudo: yes

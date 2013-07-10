@@ -1,6 +1,5 @@
 ---
 
 ubuntu_release: precise
-logwatch_email: david@bochenski.co.uk
 deploy_password: '$6$AC3bdCF7!$aA63nUecOdEg8PRDxzLkkYvZXuYtk90KIf4Pc39KbppQx0/sgg9uW68pb9r3qtjQbGImrONmIP76b4pn2zVRn.'
 # crypted password, generated on a Linux box using: echo 'import crypt,getpass; print crypt.crypt(getpass.getpass(), "$6$AC3bdCF7!")' | python -

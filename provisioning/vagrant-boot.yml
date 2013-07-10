@@ -1,6 +1,7 @@
 ---
-- hosts: digitalocean
-  user: root
+- hosts: dev-stocksystem
+  user: vagrant
+  sudo: yes
   vars_prompt:
     - name: "s3cmd_accessKey"
       prompt: "Please enter your s3 access key"

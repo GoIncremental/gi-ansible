@@ -1,6 +1,7 @@
 --- 
 
 - name: Install java
+  sudo: yes
   apt: pkg=openjdk-7-jdk  state=installed
 
 - name: download SBT
@@ -8,6 +9,7 @@
   when_string: $installed_sbt_version != '0.12.3'
 
 - name: install SBT
+  sudo: yes
   command: dpkg -i sbt.deb
   when_string: $installed_sbt_version != '0.12.3'
 

@@ -1,5 +1,5 @@
 ---
-- hosts: digitalocean
+- hosts: dev-stocksystem
   user: deploy
   sudo: no
   pre_tasks:

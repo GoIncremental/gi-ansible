@@ -1,0 +1,14 @@
+- name: ensure sites directory is present
+  file: path={{web_dir}} state=directory
+
+- name: fetch wordpress source 
+  command: chdir={{ web_dir }} wget http://wordpress.org/latest.tar.gz
+
+- name: expand wordpress source 
+  command:  chdir={{web_dir}} tar xzvf latest.tar.gz
+
+- name: copy wordpress configuration
+  template: src=wordpress_create.sql dest=${web_dir}/wordpress_create.sql
+
+- name: configure wordpress db
+  command: mysql wordpress -u root -p{{wordpress_root}}< wordpress_create.sql

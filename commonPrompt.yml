@@ -1,0 +1,12 @@
+---
+- hosts: all
+  sudo: yes
+  vars_prompt:
+    - name: "logwatch_email"
+      prompt: "Please enter the email you want logwatch to send daily updates"
+      private: no
+    - name: "postfix_mailname"
+      prompt: "Please enter the mailserver name"
+      private: no
+  roles:
+    - common

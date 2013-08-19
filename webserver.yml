@@ -2,13 +2,6 @@
 - hosts: all
   user: deploy
   sudo: no
-  vars_prompt:
-    - name: "s3cmd_accessKey"
-      prompt: "Please enter your s3 access key"
-      private: no
-    - name: "s3cmd_secretKey"
-      prompt: "Please enter your s3 secret key"
-      private: no
   pre_tasks:
     - name: establish more facts
       action: server_facts

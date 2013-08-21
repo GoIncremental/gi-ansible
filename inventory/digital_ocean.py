@@ -338,7 +338,7 @@ or environment variables (DO_CLIENT_ID and DO_API_KEY)'''
     def build_inventory(self):
         '''Build Ansible inventory of droplets'''
         self.inventory = {}
-
+        self.inventory['localhost'] = ['127.0.0.1']
         # add all droplets by id and name
         for droplet in self.data['droplets']:
             dest = droplet['ip_address']

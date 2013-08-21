@@ -14,30 +14,32 @@
 
 - name: fetch node source code
   command: wget http://nodejs.org/dist/${node_version}/node-${node_version}.tar.gz
-  when_string: $installed_node_version != $node_version
+  when: installed_node_version != node_version
 
 - name: expand node source code
   command: tar xzf node-${node_version}.tar.gz
-  when_string: $installed_node_version != $node_version
+  when: installed_node_version != node_version
 
 - name: configure node
   command: chdir=/home/deploy/node-${node_version} ./configure
-  when_string: $installed_node_version != $node_version
+  when: installed_node_version != node_version
 
 - name: make node
   command: chdir=/home/deploy/node-${node_version} make -j 3
-  when_string: $installed_node_version != $node_version
+  when: installed_node_version != node_version
 
 - name: install node
   command: chdir=/home/deploy/node-${node_version} make install
-  when_string: $installed_node_version != $node_version
+  when: installed_node_version != node_version
 
 - name: clean node build directory
   file: path=node-${node_version} state=absent
+  when: installed_node_version != node_version
 
 - name: clean node source file
   file: path=node-${node_version}.tar.gz state=absent
-
+  when: installed_node_version != node_version
+  
 - name: install forever (takes forever ... ;-) )
   npm:  name=forever global=yes
 

@@ -19,7 +19,7 @@
   lineinfile: dest=/etc/sudoers regexp="^%sudo" state=absent
 
 - name: Copy deploy sudoers rule
-  template: src=deploy.sudoers  dest=/etc/sudoers.d/deploy mode=0440 validate='visudo -cf %s'
+  template: src=deploy.sudoers  dest=/etc/sudoers.d/deploy mode=0440 owner=root group=root validate='visudo -cf %s'
 
 - name: Disallow root SSH access
   lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present

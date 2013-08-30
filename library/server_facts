@@ -27,11 +27,18 @@ def get_sbt_version():
     except StopIteration:
         return None
 
+def get_go_version():
+    try:
+        p = os.popen('go version').next().split('go version')[1].strip().split(' ')[0].split('go')[1]
+        return p
+    except StopIteration:
+        return None
 
 print json.dumps({
     "ansible_facts": {
         "installed_node_version": get_node_version(),
         "installed_mongo_version": get_mongo_version(),
-        "installed_sbt_version": get_sbt_version()
+        "installed_sbt_version": get_sbt_version(),
+        "installed_go_version": get_go_version()
     }
 })

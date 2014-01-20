@@ -40,8 +40,11 @@
   file: path=node-${node_version}.tar.gz state=absent
   when: installed_node_version != node_version
   
-- name: install forever (takes forever ... ;-) )
+- name: npm install forever -g
   npm:  name=forever global=yes
 
-- name: install bower
+- name: npm install bower -g
   npm:  name=bower global=yes
+
+- name: npm install grunt-cli -g
+  npm: name=grunt-cli global-yes

@@ -7,12 +7,11 @@
   sudo: yes
   lineinfile: dest=/etc/apt/sources.list regexp="deb http://downloads-distro.mongodb.org" line="deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"
   when: installed_mongo_version != mongo_version
-  register: last_result
 
 - name: Update APT package cache
   sudo: yes
   apt: update_cache=yes
-  when: last_result.changed
+  when: installed_mongo_version != mongo_version
 
 - name: Install mongo
   sudo: yes

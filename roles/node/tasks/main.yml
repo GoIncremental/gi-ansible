@@ -47,4 +47,4 @@
   npm:  name=bower global=yes
 
 - name: npm install grunt-cli -g
-  npm: name=grunt-cli global-yes
+  npm: name=grunt-cli global=yes

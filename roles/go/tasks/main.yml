@@ -6,7 +6,7 @@
   sudo: yes
   apt: update_cache=yes
 
-- name: Install golang
+- name: Install golang {{go_version}}
   sudo: yes
   apt: pkg=golang state=installed
   when: installed_go_version != go_version

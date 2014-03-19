@@ -15,5 +15,5 @@
 
 - name: Install mongo
   sudo: yes
-  apt: pkg=mongodb-10gen=${mongo_version} state=installed
+  apt: pkg=mongodb-10gen={{ mongo_version }} state=installed
   when: installed_mongo_version != mongo_version

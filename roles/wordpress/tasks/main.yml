@@ -5,10 +5,10 @@
   command: chdir={{ web_dir }} wget http://wordpress.org/latest.tar.gz 
 
 - name: create current folder
-  file: path=${web_dir}/${app_name}/current/ state=directory owner=deploy
+  file: path={{web_dir}}/{{app_name}}/current/ state=directory owner=deploy
 
 - name: create blog folder
-  file: path=${web_dir}/${app_name}/current/blog/ state=directory owner=deploy
+  file: path={{web_dir}}/{{app_name}}/current/blog/ state=directory owner=deploy
 
 - name: create conf folder
   file: path={{web_dir}}/{{app_name}}/current/conf/ state=directory owner=deploy
@@ -22,7 +22,7 @@
 
 - name: give www-data ownership of installed files
   sudo: yes
-  file: path=${web_dir}/${app_name}/current/blog/ state=directory owner=www-data group=deploy recurse=yes
+  file: path={{web_dir}}/{{app_name}}/current/blog/ state=directory owner=www-data group=deploy recurse=yes
 
 - name: create {{mysql_dbname }}  database
   mysql_db: name={{mysql_dbname }}  state=present

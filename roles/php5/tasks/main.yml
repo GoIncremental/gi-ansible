@@ -12,7 +12,7 @@
 
 - name: install php5
   sudo: yes
-  apt: pkg=$item state=installed
+  apt: pkg={{item}} state=installed
   with_items:
     - php5-common
     - php5-mysql

@@ -19,9 +19,9 @@
 # 'localhost' needs to be the last item for idempotency, see
 # http://ansible.cc/docs/modules.html#mysql-user
 - name: update mysql root password for all root accounts
-  mysql_user: name=root host=$item password=$mysql_root
+  mysql_user: name=root host={{item}} password={{mysql_root}}
   with_items:
-    - $ansible_hostname
+    - {{ansible_hostname}}
     - 127.0.0.1
     - ::1
     - localhost
@@ -30,8 +30,8 @@
   sudo: yes
   template: src=my.cnf dest=/home/deploy/.my.cnf owner=deploy mode=0600
 
-- name: delete anonymous MySQL server user for $server_hostname
-  mysql_user: user="" host="$server_hostname" state="absent"
+- name: delete anonymous MySQL server user for {{server_hostname}}
+  mysql_user: user="" host="{{server_hostname}}" state="absent"
 
 - name: delete anonymous MySQL server user for localhost
   mysql_user: user="" state="absent"

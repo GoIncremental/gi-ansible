@@ -32,17 +32,17 @@
   file: path={{web_dir}}/{{app_name}}/current/conf/ state=directory owner=deploy
 
 - name: create nginx site config
-  template: src=nginx.conf dest=${web_dir}/${app_name}/current/conf/nginx.conf
+  template: src=nginx.conf dest={{web_dir}}/{{app_name}}/current/conf/nginx.conf
 
 - name: link nginx site config
   sudo: yes
-  file: src=${web_dir}/${app_name}/current/conf/nginx.conf dest=/etc/nginx/sites-enabled/${app_name} state=link
+  file: src={{web_dir}}/{{app_name}}/current/conf/nginx.conf dest=/etc/nginx/sites-enabled/{{app_name}} state=link
   notify:
     - Restart nginx
 
 - name: give deploy ownership of installed files
   sudo: yes
-  file: path=${web_dir}/${app_name}/current/ state=directory owner=deploy group=deploy recurse=yes
+  file: path={{web_dir}}/{{app_name}}/current/ state=directory owner=deploy group=deploy recurse=yes
 
 - name: copy init script
   sudo: yes

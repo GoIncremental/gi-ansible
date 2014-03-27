@@ -1,24 +1,3 @@
-# - name: get currently installed ruby version
-#   shell: /home/{{ansible_user_id}}/.rvm/bin/rvm list default
-#   register: inst_ruby
-#   ignore_errors: True
-
-# - name: Install rvm
-#   shell: curl -sSL https://get.rvm.io | bash
-#   when: inst_ruby.stdout == "" or inst_ruby.rc !=0 or ruby_version != inst_ruby.stdout.split('ruby-')[1].split(' ')[0]
-
-# - name: Install rvm into ~/.bashrc onto the
-#   lineinfile: dest=/home/{{ansible_user_id}}/.bashrc regexp='HOME/.rvm/scripts/rvm" ]]' line='[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"'
-
-# - name: Install ruby from rvm
-#   shell: /home/{{ansible_user_id}}/.rvm/bin/rvm install {{ruby_version}}
-#   when: inst_ruby.stdout == "" or inst_ruby.rc !=0 or ruby_version != inst_ruby.stdout.split('ruby-')[1].split(' ')[0]
-
-# - name: Make it the default ruby
-#   shell: /home/{{ansible_user_id}}/.rvm/bin/rvm use {{ruby_version}} --default executable=/bin/bash
-#   remote_user: deploy
-#   when: inst_ruby.stdout == "" or inst_ruby.rc !=0 or ruby_version != inst_ruby.stdout.split('ruby-')[1].split(' ')[0]
-
 - name: install rvm
   shell: \curl -L https://get.rvm.io | bash -s stable --autolibs=3 creates=~/.rvm
 

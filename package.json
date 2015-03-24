@@ -1,0 +1,22 @@
+{
+  "name": "gi-ansible",
+  "version": "1.0.0",
+  "description": "Ansible roles to support the Go Incremental software deployment process",
+  "main": "\"\"",
+  "scripts": {
+    "test": "\"\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoIncremental/gi-ansible.git"
+  },
+  "keywords": [
+    "Ansible"
+  ],
+  "author": "Go Incremental Limited",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/GoIncremental/gi-ansible/issues"
+  },
+  "homepage": "https://github.com/GoIncremental/gi-ansible"
+}

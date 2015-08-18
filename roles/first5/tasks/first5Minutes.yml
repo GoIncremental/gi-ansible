@@ -1,5 +1,4 @@
 ---
-
 - name: Update APT package cache
   apt: update_cache=yes
 
@@ -10,30 +9,31 @@
   apt: pkg=fail2ban state=installed
 
 - name: Add deployment user
-  user: name=deploy password={{deploy_password}} shell=/bin/bash
+  user: name={{deploy_user}} password={{deploy_password}} shell=/bin/bash
 
 - name: Add authorized deploy key
-  authorized_key: user=deploy key="{{deploy_key}}"
-
-- name: Remove sudo group rights
-  lineinfile: dest=/etc/sudoers regexp="^%sudo" state=absent
+  authorized_key: user={{deploy_user}} key="{{deploy_key}}"
 
 - name: Copy deploy sudoers rule
-  template: src=deploy.sudoers  dest=/etc/sudoers.d/deploy mode=0440 owner=root group=root validate='visudo -cf %s'
+  template: src=deploy.sudoers  dest=/etc/sudoers.d/{{deploy_user}} mode=0440 owner=root group=root validate='visudo -cf %s'
 
 - name: Disallow root SSH access
   lineinfile: dest=/etc/ssh/sshd_config regexp="^PermitRootLogin" line="PermitRootLogin no" state=present
   notify: Restart ssh
 
+- name: Change SSH Port
+  lineinfile: dest=/etc/ssh/sshd_config regexp="^Port" line="Port {{ ssh_port }}" state=present
+  notify: Restart ssh
+
 - name: Disallow password authentication
-  lineinfile: dest=/etc/ssh/sshd_config regexp="^#PasswordAuthentication" line="PasswordAuthentication no" state=present
+  lineinfile: dest=/etc/ssh/sshd_config regexp="PasswordAuthentication" line="PasswordAuthentication no" state=present
   notify: Restart ssh
 
 - name: Install UFW
   apt: pkg=ufw state=installed
 
 - name: Configure firewall for SSH
-  command: ufw allow 22
+  command: ufw allow {{ssh_port}}
   notify: Enable ufw
 
 - name: Install unattended-upgrades
@@ -56,3 +56,6 @@
 
 - name: Make logwatch mail {{logwatch_email}} daily
   lineinfile: dest=/etc/cron.daily/00logwatch regexp="^/usr/sbin/logwatch" line="/usr/sbin/logwatch --output mail --mailto {{logwatch_email}} --detail high" state=present create=yes
+
+- name: Remove sudo group rights
+  lineinfile: dest=/etc/sudoers regexp="^%sudo" state=absent

@@ -1,0 +1,4 @@
+- name: copy wpa_suplicant.conf file with credentials
+  sudo: yes
+  template: src=wpa_suplicant.conf dest=/etc/wpa_supplicant/wpa_supplicant.conf
+  notify: Restart network

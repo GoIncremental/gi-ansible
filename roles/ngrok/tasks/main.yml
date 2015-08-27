@@ -1,0 +1,17 @@
+- name: download ngrok zipfile
+  get_url: url=https://dl.ngrok.com/ngrok_2.0.19_linux_arm.zip dest=~/ngrok.zip
+
+- name: unzip ngrok zipfile
+  unarchive: src=~/ngrok.zip dest=/usr/local/bin copy=no
+
+- name: Configure init.d
+  sudo: yes
+  template: src=ngrok.conf dest=/etc/init.d/ngrok mode=755
+
+- name: Enable ngrok to run on startup
+  sudo: yes
+  shell: update-rc.d ngrok defaults
+
+- name: Start ngrok service
+  sudo: yes
+  service: name=ngrok state=started

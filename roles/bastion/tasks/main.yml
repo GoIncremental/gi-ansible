@@ -1,0 +1,15 @@
+- name: Copy Public keys
+  copy: src={{item.src_dir}}/{{item.key}} dest=~/{{item.key}} mode=0600
+  with_items: "{{ssh_keys}}"
+
+- name: Add Devops public keys
+  command: update-ssh-keys -a {{item.name}} {{item.key}}
+  with_items: "{{ssh_keys}}"
+
+- name: Remove bootstrap keys
+  command: update-ssh-keys -d coreos-cloudinit
+  ignore_errors: True
+  
+- name: Remove keyfiles
+  file: path=~/{{item.key}} state=absent
+  with_items: "{{ssh_keys}}"
